@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Post extends Model {}
+class Comment extends Model {}
 
-Post.init(
+Comment.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,39 +11,26 @@ Post.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    post_title: {
+    text: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    post_content: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    creator_id: {
+    creator_name: {
       // user that created this post
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       references: {
         model: "user",
-        key: "id"
+        key: "name"
       }
-    },
-    comment_id: {
-      // comments on post
-      type: DataTypes.INTEGER,
-      references: {
-        model: "comment",
-        key: "id"
-      }
-
     }
   },
   {
     sequelize,
-    timestamps: false,
+    timestamps: true, // explcitly set to true because we want a createdAt attribute to the model
     freezeTableName: true,
     underscored: true,
-    modelName: 'post',
+    modelName: 'comment',
   }
 );
 
-module.exports = Post;
+module.exports = Comment;
