@@ -15,7 +15,7 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    creator_name: {
+    creator_id: {
       // user that created this post
       type: DataTypes.STRING,
       references: {
