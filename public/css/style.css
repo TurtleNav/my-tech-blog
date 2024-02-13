@@ -1,0 +1,18 @@
+
+
+/* Nav bar styling */
+nav > ul {
+  display: flex;
+  flex-direction: row;
+}
+
+nav > ul > li {
+  width: 100px;
+  list-style-type: none;
+  cursor: pointer;
+  
+}
+
+.nav-button {
+  font-size: 16pt;
+}
