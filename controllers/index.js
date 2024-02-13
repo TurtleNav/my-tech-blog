@@ -1,8 +1,14 @@
 const router = require('express').Router();
+
 const viewRoutes = require('./viewRoutes');
-const userRoutes = require('./userRoutes');
+const apiRoutes = require('./api');
 
 router.use('/', viewRoutes);
-router.use('/users', apiRoutes);
+router.use('/api', apiRoutes);
+
+// serve up a 404 page to any invalid route
+router.get("*", (req, res) => {
+  res.status(404).send("<h1>404 Page Not Found</h1>");
+}).
 
 module.exports = router;
