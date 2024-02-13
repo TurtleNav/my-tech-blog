@@ -17,10 +17,10 @@ Comment.init(
     },
     creator_id: {
       // user that created this post
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       references: {
         model: "user",
-        key: "name"
+        key: "id"
       }
     },
     post_id: {
