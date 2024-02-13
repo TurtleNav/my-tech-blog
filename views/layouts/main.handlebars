@@ -18,7 +18,11 @@
                     <span class="nav-button">Dashboard</span>
                 </li>
                 <li>
-                    <span class="nav-button">Logout</span>
+                    {{#if loggedIn}}
+                        <span id="logoutBtn" class="nav-button">Logout</span>
+                    {{else}}
+                        <span id="loginBtn" class="nav-button">Login</span>
+                    {{/if}}
                 </li>  
             </ul>
         </nav>
