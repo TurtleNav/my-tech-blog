@@ -2,7 +2,10 @@ const sequelize = require("../config/connection");
 
 const {User, Post, Comment} = require("../models");
 
-// repeated pattern below:
+// repeated pattern below. Get a random index within the bounds of an array
+function randArrIndex(arr) {
+  return Math.floor(Math.random()*arr.length);
+}
 
 // My plant-themed users, comments, and reactions. Of course.
 
@@ -43,32 +46,27 @@ console.log("🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱 User Seed Data 🌱�
 seedUsers();
 console.table(userData);
 
-function randomCreatorId() {
-  // merely a random integer in the bounds of the userData array
-  return Math.floor(Math.random() * userData.length);
-}
-
 const postData = [
   {
     post_title: "For the Love of God - Stop Spraying Insecticides",
     post_content: `Insect populations everywhere are on the decline. The world we live in\n
 simply cannot exist without insects. Plus bees are adorable and they feed us!!`,
-    creator_id: randomCreatorId()
+    creator_id: randArrIndex(userData)
   },
   {
     post_title: "Plants Are Cooler Than You",
     post_content: "Because I said so",
-    creator_id: randomCreatorId()
+    creator_id: randArrIndex(userData)
   },
   {
     post_title: "Plant Natives!!!",
     post_content: "Native plants are so beneficial for our native fauna",
-    creator_id: randomCreatorId()
+    creator_id: randArrIndex(userData)
   },
   {
     post_title: "Don't mow your lawn so short",
     post_content: "Unless you live in the deep south you do NOT have to mow your lawn twice a week",
-    creator_id: randomCreatorId()
+    creator_id: randArrIndex(userData)
   }
 ]
 
@@ -96,36 +94,32 @@ const comments = [
   "soooo trueee", "you don't know what you're talking about"
 ];
 
-function randomPostId() {
-  // merely a random integer in the bounds of the postData array
-  return Math.floor(Math.random() * postData.length);
-}
-
 let commentsData = [];
 
-for (const post of postData) {
-  const post_creator_id = post.creator_id;
-  do {
-    creator_id = randomCreatorId();
-  } while (creator_id === post_creator_id)
-}
-
-function popRandomComment() {
-  return comments.splice(Math.floor(Math.random()*comments.length), 1);
-}
-
 do {
-
+  const randComment = comments.splice(randArrIndex(comments), 1)[0];
+  // this instance of creator_id pertains to the comment not the post
+  let post_id = 0
+  let creator_id = 0;
+  do {
+    post_id = postData[randArrIndex(postData)].creator_id;
+    creator_id = randArrIndex(userData);
+  } while (post_id === creator_id)
+  commentsData.push({
+    comment: randComment,
+    // below id's should never be equal -- i.e. poster =/= commenter
+    creator_id: creator_id,
+    post_id: post_id
+  })
 } while (comments.length)
 
-for (const comment of comments) {
-
-  let creator_id
-  do {
-
-  }
+async function seedComments() {
+  return await Comment.bulkCreate(commentsData);
 }
 
+console.log("🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱 Comment Seed Data 🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱")
+seedComments();
+console.table(commentsData);
 
 
 
