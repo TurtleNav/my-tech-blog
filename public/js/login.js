@@ -1,8 +1,12 @@
+const loginBtn = document.getElementById('loginBtn');
+
 const loginFormHandler = async (event) => {
   event.preventDefault();
 
-  const email = document.querySelector('#inputEmail').value.trim();
-  const password = document.querySelector('#inputPassword3').value.trim();
+  // Could use a regex to enforce email input. Thankfully, HTML gives a
+  // input type="email"
+  const email = document.getElementById('email-input').value.trim();
+  const password = document.getElementById('password-input').value.trim();
 
   if (email && password) {
     const response = await fetch('/api/users/login', {
@@ -19,4 +23,4 @@ const loginFormHandler = async (event) => {
   }
 };
 
-document.querySelector('#login').addEventListener('submit', loginFormHandler);
+loginBtn.addEventListener('submit', loginFormHandler);
